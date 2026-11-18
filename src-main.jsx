@@ -1,25 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { client, useConfig, useElementData } from '@sigmacomputing/plugin';
+import { client, useConfig, useVariable } from '@sigmacomputing/plugin';
 
 client.config.configureEditorPanel([
-  { name: 'source', type: 'element', label: 'Data Source' },
-  {
-    name: 'embedUrl',
-    type: 'column',
-    source: 'source',
-    allowMultiple: false,
-    label: 'Embed URL',
-  },
+  { name: 'selectedLink', type: 'variable', label: 'Selected Link', allowedTypes: ['text'] },
 ]);
 
 function App() {
   const config = useConfig();
-  const sigmaData = useElementData(config.source);
-
-  const url = sigmaData && sigmaData[config.embedUrl]
-    ? sigmaData[config.embedUrl][0]
-    : null;
+  const [url] = useVariable(config.selectedLink);
 
   if (!url) {
     return (
