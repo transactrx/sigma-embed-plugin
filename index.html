@@ -20,11 +20,17 @@
 
   <script src="https://cdn.sigmacomputing.com/embed-sdk/v0/sigma-plugin.js"></script>
   <script>
-    const frame = document.getElementById('preview');
-    const placeholder = document.getElementById('placeholder');
+    var frame = document.getElementById('preview');
+    var placeholder = document.getElementById('placeholder');
 
-    sigmaPlugin.on('data', function(data) {
-      var url = data && data[0] && data[0][0];
+    sigmaPlugin.config.configureEditorPanel([
+      { name: "source", type: "element", label: "Data Source" },
+      { name: "embedUrl", type: "column", label: "Embed URL", source: "source", allowedTypes: ["text"] }
+    ]);
+
+    sigmaPlugin.on('data', function(sigmaData) {
+      var col = sigmaData['embedUrl'];
+      var url = col && col[0];
       if (url && url !== frame.src) {
         frame.src = url;
         frame.style.display = 'block';
