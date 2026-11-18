@@ -8,7 +8,9 @@ client.config.configureEditorPanel([
 
 function App() {
   const config = useConfig();
-  const [url] = useVariable(config.selectedLink);
+  const [rawValue] = useVariable(config.selectedLink);
+
+  const url = rawValue?.defaultValue?.value || null;
 
   if (!url) {
     return (
